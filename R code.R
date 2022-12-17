@@ -1,24 +1,103 @@
-# Open data frame
+################################################################################
+# Author: Dylan Armbruster
+# Title: 
+# Date: 12/16/2022
+################################################################################
+
+
+
+
+################################################################################
+################################################################################
+## Section 1: Setting up the data frames
+################################################################################
+################################################################################
+
+################################################
+# Step 1: This code loads in the dplyr package #
+################################################
+library(dplyr)
+
+##########################################################
+# Step 2: This code opens the data frame symptomtriggers #
+##########################################################
+
 View(symptomtriggers)
 
-# Removed psid by assining it to NULL ( first ID column). 
-# Was told it is not needed.
+##############################################
+# Step 3: This code removes the psid column. #
+# Was told it is not needed.                 #
+##############################################
+
 symptomtriggers$psid <- NULL
 
-# create sub data frame called fatigue. 
-# the data.frame function: 
-fatigue <- data.frame(symptomtriggers$psid, symptomtriggers$psid2,symptomtriggers$opensxtrig_fatigue)
+################################################################################
+# Step 4: This code creates a sub data frame from symptomstriggers and is
+# named Fatigue.
+################################################################################
 
-# Open fatigue data frame
-View(fatigue)
+Fatigue <- data.frame(symptomtriggers$psid2, symptomtriggers$opensxtrig_fatigue)
 
-# Creates a column called fatigue_symptoms
-fatigue['symptom_fatigue'] <- NA
+##################################################
+# Step 5: This code opens the Fatigue data frame #
+##################################################
+View(Fatigue)
 
-# The grep() function: grep() returns the indices in which a match of a string
-# appears. Note grep() returns the index, but if you want a simple "is this in 
-# here"-or-"is it not", use grepl() instead grep() returns numeric values, 
-# whereas grepl() returns a Boolean TRUE/FALSE.
-# Searching through the column for the word "peroid", returns 1 if it exists
-# in the column.
-fatigue$symptom_fatigue[grep("period", fatigue$symptomtriggers.opensxtrig_fatigue)]<- 1
+##########################################################
+# Step 6: This code renames column symptomtriggers.psid2 #
+##########################################################
+
+Fatigue = rename(Fatigue, subjects = symptomtriggers.psid2)
+
+#######################################################################
+# Step 7: This code renames column symptomtriggers.opensxtrig_fatigue #
+#######################################################################
+
+Fatigue = rename(Fatigue, subject_symptoms = symptomtriggers.opensxtrig_fatigue)
+
+#############################################################
+# Step 8: This code creates a column called fatigue_Period  #
+#############################################################
+
+Fatigue['symptom_Period'] <- NA
+
+#############################################################
+# Step 9: This code creates a column called fatigue_Relapse #
+#############################################################
+
+Fatigue['symptoms_Relapse'] <- NA
+
+#######################################################################
+# Step 10: This code creates a column called fatigue_physicalActivity #
+#######################################################################
+
+Fatigue['symptoms_physicalAcitvity'] <- NA
+
+##############################################################
+# Step 11: This code creates a column called fatigue_Fatigue #
+##############################################################
+
+Fatigue['symptoms_Fatigue'] <- NA
+
+###############################################################################
+#Step : This code searches for strings of symptoms to match to specific coded #
+# numbers.                                                                    #
+###############################################################################
+# Period  #
+Fatigue$symptom_Period[grep("Period|period|Periods|periods|PMS",
+                              Fatigue$subject_symptoms)]<- 1
+
+# Relapse #
+
+Fatigue$symptoms_Relapse[grep("Relapse|relapse",
+                              Fatigue$subject_symptoms)]<- 1
+
+# Physical Acitvity #
+Fatigue$symptoms_physicalAcitvity[grep("Exercise|exercise|Activity|activity" ,
+                              Fatigue$subject_symptoms)]<- 1
+
+Fatigue$symptoms_Fatigue[grep("Fatige|fatigue" ,
+                                       Fatigue$subject_symptoms)]<- 1
+
+
+
