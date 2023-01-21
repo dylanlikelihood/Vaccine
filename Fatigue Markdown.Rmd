@@ -5,17 +5,6 @@ date: "2023-01-14"
 output: html_document
 ---
 
-The first line loads the dplyr and ggplot libraries, and the second line loads the readr library which is used to read in the CSV file.
-The next line reads in the CSV file and creates a data frame called symptomtriggers_xlsx_all.
-The next line shows the data frame in a viewer.
-The next line sets the symptomtriggers data frame equal to symptomtriggers_xlsx_all.
-The next line removes the psid column from the symptomtriggers data frame as it is not needed.
-The next line creates a sub data frame from symptomtriggers and is named Fatigue.
-The next line renames the column symptomtriggers.psid2 to subjects.
-The next line renames the column symptomtriggers.opensxtrig_fatigue to subject_triggers.
-The next 8 lines create new columns in the Fatigue data frame called trigger_Period, trigger_Relapse, trigger_physicalAcitvity, trigger_Fatigue, trigger_Cognitive, trigger_Stress, trigger_Temperature, trigger_Food, and trigger_lackOfSleep.
-The next 8 lines of code use the grep function to search for specific strings of symptoms in the subject_triggers column, and if a match is found, the corresponding trigger column is given a value of 1.
-
 
 ## Markdown
 ```{r}
