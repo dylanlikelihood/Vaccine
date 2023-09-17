@@ -67,9 +67,6 @@ RenamedRawData <- RawData %>%
          Hallucinations = opensxtrig_hal,
          MoodProblems = opensxtrig_mood)
 
-
-
-################################################################################
 # This Code searches for the most common(MC) Words in all the columns in the 
 # data frame RenamedRawData 
 # Note: This doesn't work very well.
@@ -129,7 +126,7 @@ FrequencyTable <- RawDataLongForm %>%
   ungroup()
 
 
-# PLots
+# Plots
 ## Fatigue
 ggplot(FrequencyTable, aes(x = Symptom, y = FatigueCount)) +
   geom_bar(stat = "identity", fill = "blue") +
