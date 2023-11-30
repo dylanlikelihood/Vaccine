@@ -126,7 +126,7 @@ CountsTable <- RawDataLongForm %>%
   ) %>%
   ungroup()
 
-# Basic PLots
+# Basic Plots
 
 # Fatigue
 ggplot(CountsTable, aes(x = Symptom, y = FatigueCount)) +
