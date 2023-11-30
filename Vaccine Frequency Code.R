@@ -2,10 +2,14 @@
 library(tidyverse)
 library(readr)
 library(reshape2)
+library(tibble)
 
 
 # Read the CSV file into a data frame
 RawData <- read_csv("symptomtriggers.csv")
+
+# Following The Tidyverse, we make this data frame a tibble.
+RawData <- as_tibble(RawData)
 
 # Remove the 'psid' column from RawData
 RawData <- RawData %>%
@@ -67,6 +71,9 @@ RenamedRawData <- RawData %>%
          Hallucinations = opensxtrig_hal,
          MoodProblems = opensxtrig_mood)
 
+
+
+################################################################################
 # This Code searches for the most common(MC) Words in all the columns in the 
 # data frame RenamedRawData 
 # Note: This doesn't work very well.
@@ -126,7 +133,7 @@ FrequencyTable <- RawDataLongForm %>%
   ungroup()
 
 
-# Plots
+# PLots
 ## Fatigue
 ggplot(FrequencyTable, aes(x = Symptom, y = FatigueCount)) +
   geom_bar(stat = "identity", fill = "blue") +
@@ -135,20 +142,20 @@ ggplot(FrequencyTable, aes(x = Symptom, y = FatigueCount)) +
 ## Period
 ggplot(FrequencyTable, aes(x = Symptom, y = PeriodCount)) +
   geom_bar(stat = "identity", fill = "blue") +
-  labs(title = "Symptoms Triggered by Fatigue", x = "Symptom", y = "Period Count") +
+  labs(title = "Symptoms Triggered by Periods", x = "Symptom", y = "Period Count") +
   theme(axis.text.x = element_text(size = 9, angle = 70, hjust = 1))
 ## Relapse
 ggplot(FrequencyTable, aes(x = Symptom, y = RelapseCount)) +
   geom_bar(stat = "identity", fill = "blue") +
-  labs(title = "Symptoms Triggered by Fatigue", x = "Symptom", y = "Relapse Count") +
+  labs(title = "Symptoms Triggered by Relapses", x = "Symptom", y = "Relapse Count") +
   theme(axis.text.x = element_text(size = 9, angle = 70, hjust = 1))
 ## Physical Activity
 ggplot(FrequencyTable, aes(x = Symptom, y = PhysicalActivityCount)) +
   geom_bar(stat = "identity", fill = "blue") +
-  labs(title = "Symptoms Triggered by Fatigue", x = "Symptom", y = "Physical Activity Count") +
+  labs(title = "Symptoms Triggered by Physical Activity", x = "Symptom", y = "Physical Activity Count") +
   theme(axis.text.x = element_text(size = 9, angle = 70, hjust = 1))
 ## Stress
 ggplot(FrequencyTable, aes(x = Symptom, y = StressCount)) +
   geom_bar(stat = "identity", fill = "blue") +
-  labs(title = "Symptoms Triggered by Fatigue", x = "Symptom", y = "Stress Count") +
+  labs(title = "Symptoms Triggered by Stress", x = "Symptom", y = "Stress Count") +
   theme(axis.text.x = element_text(size = 9, angle = 70, hjust = 1))
