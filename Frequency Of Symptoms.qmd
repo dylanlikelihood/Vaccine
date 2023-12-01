@@ -84,7 +84,6 @@ RenamedRawData <- RawData %>%
 
 # This Code searches for the most common(MC) Words in all the columns in the 
 # data frame RenamedRawData 
-# Note: This doesn't work very well.
 
 # MC Word in Fatigue
 FatigueMC <- RenamedRawData %>%
