@@ -1,3 +1,6 @@
+# Email me for the csv file: dylanarmbruster15@gmail.com
+########################################################
+
 # Load required libraries
 library(tidyverse)
 library(readr)
@@ -8,14 +11,20 @@ library(tibble)
 RawData <- read_csv("symptomtriggers.csv")
 
 # Following The Tidyverse, we make this data frame a tibble.
-RawData <- as_tibble(RawData)
+df <- as_tibble(RawData)
+
+# Inspect The DF
+head(df)
+
+# Check for NA's
+sum(is.na(df))
 
 # Remove the 'psid' column from RawData
-RawData <- RawData %>%
+df <- df %>%
   mutate(psid = NULL)
 
 # Rename columns in RawData and assign the modified dataframe to RenamedRawData
-RenamedRawData <- RawData %>%
+Renamed_df <- df %>%
   rename(Subject = psid2 , Fatigue = opensxtrig_fatigue, 
          LightHeaded = opensxtrig_lhead ,
          Vertigo = opensxtrig_vert,
@@ -72,32 +81,38 @@ RenamedRawData <- RawData %>%
 
 # This Code searches for the most common(MC) Words in all the columns in the 
 # data frame RenamedRawData 
+# Note: This doesn't work very well.
 
 # MC Word in Fatigue
-FatigueMC <- RenamedRawData %>%
+FatigueMC <- Renamed_df %>%
   count(Fatigue, sort = TRUE)
 
 # MC Word in LightHeaded
-LightHeadedMC <- RenamedRawData %>%
+LightHeadedMC <- Renamed_df %>%
   count(LightHeaded, sort = TRUE)
 
 # MC Word in Vertigo
-VertigoMC <- RenamedRawData %>%
+VertigoMC <- Renamed_df %>%
   count(Vertigo, sort = TRUE)
-
 # Pivot the data frame to long form using pivot_longer
-RawDataLongForm <- RenamedRawData %>%
+df_LongForm <- Renamed_df %>%
   pivot_longer(cols = Fatigue:BowelBladderProblems, values_to = "Responses")  %>%
   rename(Symptom = name)
 
+# Inspect df
+head(df_LongForm)
+
 # Select relevant columns: Subject, Symptom, Responses
-RawDataLongForm <- RawDataLongForm %>%
+df_LongForm <- df_LongForm %>%
   select(Subject,Symptom,Responses)
 
 
+# Inspect df
+head(df_LongForm)
+
 # Generate a raw count table for symptoms
 # Each key words were decided on by looking through the dataset and thinking about how well the reported words related to the key words. For example, for Physical Activity, I considered reported words that would relate to some sort of movement. Such as climbing or exercise. 
-CountsTable <- RawDataLongForm %>%
+CountsTable <- df_LongForm %>%
   group_by(Symptom) %>%
   summarize(
     FatigueCount = sum(grepl("(Fatigue)|(Fatigued)|(Tiredness)",
@@ -121,9 +136,12 @@ CountsTable <- RawDataLongForm %>%
     SleepCount = sum(grepl("(Sleep)", Responses, ignore.case = TRUE)),
     InfectionCount = sum(grepl("(Infection)|(As above)",
                                Responses, ignore.case = TRUE)),
-    
+  
   ) %>%
   ungroup()
+
+# Inspect df
+head(CountsTable)
 
 # Basic Plots
 
